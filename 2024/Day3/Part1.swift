@@ -1,54 +1,77 @@
-/* MARK: Imports */
 import Foundation
+import RegexBuilder
 
-/* MARK: Main Function */
-func main() {
-    // Constants
-    let test: Bool = true
-    let input_file: String = test ? "test_input.txt" : "input.txt"
-    let fileURL = createURL(input_file)
+func main() -> Void {
+    let testing = false
+    let fileName = testing ? "test_input.txt" : "input.txt"
+    let fileURL = createURL(inputFile: fileName)
+   
+   // Define regex for "MUL(digits,digits)"
+    let mulPattern: Regex<Regex<(Substring, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput)>.RegexOutput> = Regex {
+        "mul"
+        "("
+        Capture { OneOrMore(.digit) }
+        ","
+        Capture { OneOrMore(.digit) }
+        ")"
+    }
 
     // Variables
-    var input: String
+    var stringContents: String
+    var answer: Int = 0
 
-    // create string
+    // Get string contents
     do {
-        input = try String(contentsOf: fileURL, encoding: .utf8)
+        stringContents = try String(contentsOf: fileURL, encoding: .utf8)
     } catch let err {
-        print("Failed to read file: \(err)")
+        print("Unable to decode String: \(err.localizedDescription)")
         exit(EXIT_FAILURE)
     }
 
-    let mul_filter = input.    
+    // Get the values from the string
+    let extractedValues = getMatches(mulPattern, from: stringContents)
+
+    // Multiply the two values together and add them to the answer
+    answer = extractedValues.reduce(0) { partialResult, value  in
+        partialResult + (value.first * value.second)
+    }
+
+    print("Answer: \(answer)")
+
 }
 
-/* MARK: Auxiliary Functions */
-func createURL(_ file_to_open: String) -> URL {
-    // Constants
+// MARK: Auxiliary functions 
+func createURL(inputFile: String) -> URL {
     let currentDirectoryPath = FileManager.default.currentDirectoryPath
-
-    // Create file URL from CWD and file name
-    var fileURL = URL(filePath: currentDirectoryPath)
-    fileURL = fileURL.appending(path: file_to_open)
+    let fileURL = URL(fileURLWithPath: currentDirectoryPath).appendingPathComponent(inputFile)
 
     return fileURL
 }
 
-func findOccurances(_ input: String) -> [(index: Int, firstArgument: Int, secondArgument: Int)] {
+func getMatches(
+    _ pattern : Regex<Regex<(Substring, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput)>.RegexOutput>,
+    from input: String
+) ->  [(first: Int, second: Int)] {
     // Constants
-    let regexPattern = #"mul\((-?\d+),\s*(-?\d+)\)"#        // Regular expression pattern
-    let regex: Regex<AnyRegexOutput>                                // Placeholder for regex object
-    
-    // Attempt to create a regular expression
-    do {
-        regex = try Regex(regexPattern)
-    } catch let err {
-        print("Could not create regex expression: \(err)")
+    // Get all matches from the string
+    let matches: [Regex<Regex<Regex<(Substring, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput, Regex<OneOrMore<Substring>.RegexOutput>.RegexOutput)>.RegexOutput>.RegexOutput>.Match] =  input.matches(of: pattern)
+    // Get first and second value from the match
+    let values = matches.map { match in 
+            // Constants
+            // Get first and second value ( as regex match )
+            let firstValue = String( match.output.1 )
+            let secondValue = String( match.output.2)
+
+            // Cast and unwrap the values
+            guard let firstInt = Int(firstValue),let secondInt = Int(secondValue) else {
+                return (first: 0, second: 0)
+            }
+
+            return (first: firstInt, second: secondInt)
     }
 
-    // Find all matches in the string
-    regex.enumerateMatches
+   return values
 }
 
-/* MARK: Main entrypoint */
+// MARK: Main entrypoint
 main()
