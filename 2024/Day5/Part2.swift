@@ -167,11 +167,25 @@ func validate_report(_ report: [Int], using rules: [Int: [Int]]) -> [Int]? {
         }
 
         if keyIndex > firstRuleIndex {
-            return nil
+            return report
         }
     }
 
-    return report
+    return nil
+}
+
+func repairReport(_ report: [Int], using rules: [Int: [Int]]) -> [Int] {
+
+    var currentReport: [Int] = report
+    var changeMade: Bool = true
+
+    // Continue to review rules until no changes made
+    while changeMade {
+        
+
+    }
+
+    return currentReport
 }
 
 main()
