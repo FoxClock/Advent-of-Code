@@ -174,6 +174,12 @@ func validate_report(_ report: [Int], using rules: [Int: [Int]]) -> [Int]? {
     return nil
 }
 
+/// Used to take a report and use the rules to repair the report.
+/// That is, to reorder the elements so that they comply with the rules.
+/// - Parameters:
+///   - report: An array of values, currently non compliant
+///   - rules: An Dictionary of arrays, representing a value and its associated rules.
+/// - Returns: An array of values, now compliant with rules.
 func repairReport(_ report: [Int], using rules: [Int: [Int]]) -> [Int] {
 
     var currentReport: [Int] = report
