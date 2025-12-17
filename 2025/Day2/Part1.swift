@@ -43,7 +43,7 @@ func main() {
 
     let ranges = splitCollection.compactMap( {rangeConvert(from: $0)} )
 
-    let pallendromeNumberCount = ranges.reduce(0, { partialResult, range in partialResult + findPallendrome(in: range) })
+    let pallendromeNumberCount = ranges.reduce(0, { partialResult, range in partialResult + findRepeaterNumbers(in: range) })
     print(pallendromeNumberCount)
 }
 
@@ -69,6 +69,10 @@ func rangeConvert(from input: String) -> Range<Int> {
     return Range<Int>(low...high)
 }
 
+
+// This function finds pallendrome numbers
+// however, this is not what is needed for the 
+// challenge.
 func findPallendrome(in input: Range<Int>) -> Int {
 
     var total = 0
@@ -82,12 +86,45 @@ func findPallendrome(in input: Range<Int>) -> Int {
         }
 
         if reverse == abs(value) {
-           print("Pallendrome: \(reverse)")
            total += reverse 
         }
     }
 
     return total 
+}
+
+func findRepeaterNumbers(in input: Range<Int>) -> Int {
+
+    var total = 0
+
+    for value in input {
+        let strRepr = String(value) 
+        
+        // if the number is not an even length. Skip
+        if strRepr.count % 2 != 0 {
+            continue
+        }
+
+        // if the number starts with zero. Skip
+        if String(strRepr.first!) == "0" {
+            continue
+        }
+
+        let strHalfPos = strRepr.count / 2
+        let strFirstIndex = strRepr.startIndex
+        let midIndex = strRepr.index(strFirstIndex, offsetBy: strHalfPos)
+        let secHalfStartIndex = midIndex
+        let endIndex = strRepr.endIndex
+
+        let firstHalf = String(strRepr[strFirstIndex..<midIndex])
+        let secondHalf = String(strRepr[midIndex..<endIndex])
+
+        if firstHalf == secondHalf {
+            total += value
+        }
+    }
+
+    return total
 }
 
 main()
