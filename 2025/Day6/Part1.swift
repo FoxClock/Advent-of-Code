@@ -141,11 +141,6 @@ func reshapeArray(_ stringArrays: [[String]]) -> [[String]] {
         return outputArrays
     }
 
-    guard yShape == xShape else {
-        print("Array must have and equal number of rows and elements.")
-        return outputArrays
-    }
-
     for x in 0..<xShape {
         var outputArray: [String] = []
         for y in 0..<yShape {
