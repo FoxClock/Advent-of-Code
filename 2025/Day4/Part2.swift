@@ -5,9 +5,9 @@
     An @ symbol can only be accessed if:
         - if there are fewer than 4 '@' symbols in adjacent cells
 
-    If an @ symbol is accessable, then replace it with "x"
+    If an @ symbol is accessible, then replace it with "x"
 
-    Count the number of accessable rolls.
+    Count the number of accessible rolls.
 */
 import Foundation
 
@@ -70,7 +70,7 @@ enum Direction: CaseIterable {
 struct Day4 {
     struct Config {
         let paper: Character
-        let acessable: Character
+        let accessible: Character
         let blank: Character
         let requiredSpaces: Int
     }
@@ -79,7 +79,7 @@ struct Day4 {
         let mode = Mode.from(CommandLine.arguments)
         let currentConfig = Config(
             paper: "@",
-            acessable: "x",
+            accessible: "x",
             blank: ".",
             requiredSpaces: 4
         )
@@ -90,21 +90,21 @@ struct Day4 {
         var characterArray = processArray(from: fileContents)
 
         var freeSpacesCount = 0
-        var countedAccessableRolls = 0
+        var countedAccessibleRolls = 0
 
         repeat {
             characterArray = findFreeSpaces(
                 width: width, lines: lines, array: characterArray, config: currentConfig)
             
-            countedAccessableRolls = characterArray.count(where: {$0 == currentConfig.acessable})
+            countedAccessibleRolls = characterArray.count(where: {$0 == currentConfig.accessible})
 
             // Update freespace count 
-            freeSpacesCount += countedAccessableRolls
+            freeSpacesCount += countedAccessibleRolls
 
             // Remove free items
             characterArray.replace("x", with: ".")
 
-        } while countedAccessableRolls > 0
+        } while countedAccessibleRolls > 0
 
 
         // Print out data shape
@@ -118,7 +118,7 @@ struct Day4 {
 }
 
 // ==============================
-// MARK: Auxilary functions
+// MARK: Auxiliary functions
 // ==============================
 func openFile(_ fileName: String) -> String {
     var output = ""
@@ -190,7 +190,7 @@ func findFreeSpaces(width: Int, lines: Int, array: [Character], config: Day4.Con
                 continue
             }
 
-            // Check each direction (n,ne,e,se,s,sw,w,nw) and assertain if it
+            // Check each direction (n,ne,e,se,s,sw,w,nw) and ascertain if it
             // falls within the grid or contains a free space
             for direction in Direction.allCases {
                 let xDelta = x + direction.offsets.x  // x delta from current index
@@ -220,9 +220,9 @@ func findFreeSpaces(width: Int, lines: Int, array: [Character], config: Day4.Con
             }
 
             // If the freeDirections set contains enough free spaces
-            // replace current target character, with an accessable symbol
+            // replace current target character, with an accessible symbol
             if freeDirections.count > config.requiredSpaces {
-                outputArray[index] = config.acessable
+                outputArray[index] = config.accessible
             }
 
         }

@@ -47,15 +47,15 @@ struct Day5 {
         // Sort ranges in ascending order
         let sortedRanges = closedRanges.sorted(by: { $0.lowerBound < $1.lowerBound })
 
-        let coalecedRanges = coaleseRanges(ranges: sortedRanges)
+        let coalescedRanges = coalesceRanges(ranges: sortedRanges)
 
         if mode == .test {
             let testOutputRanges = convertRanges(["3-5", "10-20"])
-            debugOutput(ranges: coalecedRanges, outputRanges: testOutputRanges)
+            debugOutput(ranges: coalescedRanges, outputRanges: testOutputRanges)
         }
 
         var total = 0
-        for range in coalecedRanges {
+        for range in coalescedRanges {
             total += range.count
         }
         
@@ -64,7 +64,7 @@ struct Day5 {
 }
 
 // ========================
-// MARK: Auxilary Functions
+// MARK: Auxiliary Functions
 // ========================
 func openFile(from input: String) -> String {
     let url: URL = URL(filePath: input)
@@ -126,7 +126,7 @@ func checkItemIsFresh(item: Int, in ranges: [ClosedRange<Int>]) -> Int? {
     return nil
 }
 
-func coaleseRanges(ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
+func coalesceRanges(ranges: [ClosedRange<Int>]) -> [ClosedRange<Int>] {
     var tempRanges = ranges
 
     var currentIndex = 1

@@ -5,9 +5,9 @@
     An @ symbol can only be accessed if:
         - if there are fewer than 4 '@' symbols in adjacent cells
 
-    If an @ symbol is accessable, then replace it with "x"
+    If an @ symbol is accessible, then replace it with "x"
 
-    Count the number of accessable rolls.
+    Count the number of accessible rolls.
 */
 import Foundation
 // ==============================
@@ -69,7 +69,7 @@ enum Direction: CaseIterable {
 struct Day4 {
     struct Config {
             let paper: Character
-            let acessable: Character
+            let accessible: Character
             let blank: Character
             let requiredSpaces: Int
         }
@@ -82,7 +82,7 @@ struct Day4 {
         let mode = Mode.from(CommandLine.arguments)
         let currentConfig = Config(
                 paper: "@",
-                acessable: "x", 
+                accessible: "x", 
                 blank: ".", 
                 requiredSpaces: 4
             )
@@ -118,7 +118,7 @@ struct Day4 {
             }
         }
 
-        let freeSpacesCount = characterArray.count(where: {$0 == currentConfig.acessable})
+        let freeSpacesCount = characterArray.count(where: {$0 == currentConfig.accessible})
         print("Free Spaces: \(freeSpacesCount)")
 
 
@@ -126,7 +126,7 @@ struct Day4 {
 }
 
 // ==============================
-// MARK: Auxilary functions
+// MARK: Auxiliary functions
 // ==============================
 func openFile(_ fileName: String) -> String {
     var output = ""
@@ -217,7 +217,7 @@ func findFreeSpaces(width: Int, lines: Int, array: [Character], config: Day4.Con
             }
 
             if freeDirections.count > config.requiredSpaces {
-                outputArray[index] = config.acessable
+                outputArray[index] = config.accessible
             }
 
         }

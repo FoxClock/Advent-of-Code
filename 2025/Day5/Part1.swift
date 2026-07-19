@@ -57,7 +57,7 @@ struct Day5 {
 }
 
 // ========================
-// MARK: Auxilary Functions
+// MARK: Auxiliary Functions
 // ========================
 func openFile(from input: String) -> String {
     let url: URL = URL(filePath: input)
