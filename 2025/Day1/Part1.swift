@@ -9,7 +9,7 @@ struct Day1 {
         // Constants
         let mode: Mode
         let input: String
-        let DialPostion: Int = 50
+        let dialPosition: Int = 50
 
         // Set debug or run mode
         mode = Mode.from(CommandLine.arguments)
@@ -34,7 +34,7 @@ struct Day1 {
         }
 
         // get all rotations
-        let rotationPositions = applyRotations(start: DialPostion, rotations: alignedValues)
+        let rotationPositions = applyRotations(start: dialPosition, rotations: alignedValues)
 
         if mode == .test {print("Rots: \(rotationPositions)")}
 
